@@ -1,103 +1,213 @@
-import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+export const metadata = {
+  title: "Welcome | [WittyName]",
+  description:
+    "Create flashcards, organize by folders and subjects, and study with game-inspired modes.",
+};
+
+export default function HomePage() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
+      {/* Splash / Hero */}
+      <section className="mx-auto max-w-6xl px-6 pt-10 ">
+        <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-gray-200 relative">
+          <div className="grid items-center gap-10 md:grid-cols-2">
+            <div>
+              <span className="inline-block rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 ring-1 ring-blue-200">
+                Academic, organized, game-inspired
+              </span>
+              <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-gray-900 md:text-5xl">
+                FlashFlip
+              </h1>
+              <p className="mt-2 text-lg text-gray-700">
+                A flashcard-inspired learning tool. Create cards, assign them to{" "}
+                <strong>folders</strong> and <strong>subjects</strong>, then
+                reinforce recall with quick game modes.
+              </p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+              {/* Entry buttons */}
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <Link
+                  href="/content"
+                  className="rounded-xl bg-blue-600 px-5 py-3 text-white hover:bg-blue-700"
+                >
+                  Explore as Guest
+                </Link>
+                <Link
+                  href="/login"
+                  className="rounded-xl border border-gray-300 bg-white px-5 py-3 text-gray-900 hover:bg-gray-50"
+                >
+                  Sign in to Save
+                </Link>
+              </div>
+              <p className="mt-2 text-xs text-gray-500">
+                Guests can explore game modes. Saving cards requires an account.
+              </p>
+            </div>
+
+            {/* Visual hierarchy preview */}
+            <div className="relative">
+              <div className="rounded-2xl border border-gray-200 bg-blue-50/50 p-4">
+                <p className="text-sm font-semibold text-gray-700">
+                  How things organize
+                </p>
+                <div className="mt-3 grid gap-3 text-sm">
+                  <div className="rounded-xl bg-pink-50 p-3 shadow-sm ring-1 ring-pink-100">
+                    <div className="font-medium text-gray-800">
+                      📁 Folder: Term 1
+                    </div>
+                    <div className="mt-1 text-gray-500">
+                      Group your study sets
+                    </div>
+                  </div>
+                  <div className="ml-4 rounded-xl bg-green-50 p-3 shadow-sm ring-1 ring-green-100">
+                    <div className="font-medium text-gray-800">
+                      📚 Subject: Biology
+                    </div>
+                    <div className="mt-1 text-gray-500">
+                      Attach sets to subjects
+                    </div>
+                  </div>
+                  <div className="ml-8 rounded-xl bg-yellow-50 p-3 shadow-sm ring-1 ring-yellow-100">
+                    <div className="font-medium text-gray-800">
+                      🗂️ Set: Cell Basics
+                    </div>
+                    <div className="mt-2 grid grid-cols-2 gap-3">
+                      <CardPreview
+                        label="Question"
+                        value="Organelle for energy?"
+                      />
+                      <CardPreview label="Answer" value="Mitochondrion" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating card */}
+              <div className="absolute bottom-0 right-0 w-56 translate-y-12 translate-x-6 rotate-2 rounded-xl border border-gray-200 bg-white p-4 shadow">
+                <div className="text-xs uppercase text-gray-500">Flashcard</div>
+                <div className="mt-1 text-sm font-semibold text-gray-900">
+                  Q → “Define photosynthesis”
+                </div>
+                <div className="mt-2 rounded-lg bg-gray-50 p-2 text-xs text-gray-700">
+                  A → “Plants convert light into chemical energy…”
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </section>
+
+      {/* Study modes */}
+      <section className="mx-auto mt-16 max-w-6xl px-6">
+        <h2 className="text-xl font-semibold text-gray-900">Study modes</h2>
+        <p className="mt-1 text-sm text-gray-600">
+          Core recall first, then quick games to lock it in.
+        </p>
+
+        <div className="mt-5 grid gap-4 md:grid-cols-3">
+          <ModeCard
+            title="Live Quiz (Kahoot-style)"
+            badge="Real-time"
+            desc="Host or join timed rounds with streaks and leaderboards."
+            color="bg-purple-50 ring-purple-100"
+            items={["Buzz-in questions", "Power-ups", "Classroom-friendly"]}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <ModeCard
+            title="Q↔A Matching"
+            badge="Focus"
+            desc="Match questions to their answers, perfect for definitions."
+            color="bg-pink-50 ring-pink-100"
+            items={["Shuffle pairs", "Time attack", "Hints on miss"]}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          <ModeCard
+            title="Spaced Practice"
+            badge="Retention"
+            desc="Adaptive scheduling that prioritizes what you’re close to forgetting."
+            color="bg-green-50 ring-green-100"
+            items={["Daily reviews", "Confidence ratings", "Progress charts"]}
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+      </section>
+
+      {/* Mission & Vision */}
+      <section className="mx-auto mt-20 max-w-4xl px-6 text-center">
+        <h2 className="text-2xl font-bold text-gray-900">
+          Our Mission & Vision
+        </h2>
+        <p className="mt-4 text-lg text-gray-700 leading-relaxed">
+          At <strong>FlashFlip</strong>, our mission is simple:{" "}
+          <span className="italic">
+            make learning engaging, accessible, and memorable.
+          </span>{" "}
+          We believe that knowledge sticks best when it’s{" "}
+          <span className="font-semibold">active, playful, and personal</span>.
+        </p>
+        <p className="mt-4 text-lg text-gray-700 leading-relaxed">
+          Whether you’re cramming for exams, exploring new subjects, or leading
+          a classroom, our goal is to provide tools that blend{" "}
+          <strong>academic rigor</strong> with{" "}
+          <strong>game-inspired fun</strong>.
+        </p>
+        <p className="mt-4 text-lg text-gray-700 leading-relaxed">
+          Together, we can transform the way people learn, one flashcard at a
+          time.
+        </p>
+      </section>
+
+      {/* White space spacer */}
+      <div className="h-40 bg-grey-50" />
+    </div>
+  );
+}
+
+/* ---------- Small components ---------- */
+function CardPreview({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-gray-200 bg-white p-3">
+      <div className="text-[10px] uppercase tracking-wide text-gray-500">
+        {label}
+      </div>
+      <div className="mt-1 font-medium text-gray-800">{value}</div>
+    </div>
+  );
+}
+
+function ModeCard({
+  title,
+  desc,
+  items,
+  badge,
+  color,
+}: {
+  title: string;
+  desc: string;
+  items: string[];
+  badge?: string;
+  color: string;
+}) {
+  return (
+    <div
+      className={`group relative overflow-hidden rounded-xl border ${color} p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md`}
+    >
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+        {badge ? (
+          <span className="rounded-full bg-white/50 px-2.5 py-1 text-xs font-medium text-gray-700 ring-1 ring-gray-200">
+            {badge}
+          </span>
+        ) : null}
+      </div>
+      <p className="mt-2 text-sm text-gray-600">{desc}</p>
+      <ul className="mt-4 space-y-1 text-sm text-gray-700">
+        {items.map((i, idx) => (
+          <li key={idx} className="flex items-start gap-2">
+            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-gray-400/60" />
+            {i}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
