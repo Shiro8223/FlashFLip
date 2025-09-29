@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Welcome | [WittyName]",
+  title: "Welcome | FlashFlip",
   description:
     "Create flashcards, organize by folders and subjects, and study with game-inspired modes.",
 };
