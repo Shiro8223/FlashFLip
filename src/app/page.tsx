@@ -53,7 +53,7 @@ export default function HomePage() {
                   How things organize
                 </p>
                 <div className="mt-3 grid gap-3 text-sm">
-                  <div className="rounded-xl bg-pink-50 p-3 shadow-sm ring-1 ring-pink-100">
+                  <div className="rounded-xl bg-pink-100 p-3 shadow-sm ring-1 ring-pink-100">
                     <div className="font-medium text-gray-800">
                       📁 Folder: Term 1
                     </div>
@@ -61,7 +61,7 @@ export default function HomePage() {
                       Group your study sets
                     </div>
                   </div>
-                  <div className="ml-4 rounded-xl bg-green-50 p-3 shadow-sm ring-1 ring-green-100">
+                  <div className="ml-4 rounded-xl bg-green-100 p-3 shadow-sm ring-1 ring-green-100">
                     <div className="font-medium text-gray-800">
                       📚 Subject: Biology
                     </div>
@@ -69,7 +69,7 @@ export default function HomePage() {
                       Attach sets to subjects
                     </div>
                   </div>
-                  <div className="ml-8 rounded-xl bg-yellow-50 p-3 shadow-sm ring-1 ring-yellow-100">
+                  <div className="ml-8 rounded-xl bg-yellow-100 p-3 shadow-sm ring-1 ring-yellow-100">
                     <div className="font-medium text-gray-800">
                       🗂️ Set: Cell Basics
                     </div>
