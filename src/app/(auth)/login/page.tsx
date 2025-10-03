@@ -19,14 +19,16 @@ async function loginAction(formData: FormData) {
   redirect("/dashboard");
 }
 
-export const metadata = { title: "Log in | [WittyName]" };
+export const metadata = { title: "Log in | FlashFlip" };
 
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams?: { error?: string };
+  // ✅ make it a Promise and await it
+  searchParams?: Promise<{ error?: string }>;
 }) {
-  const error = searchParams?.error;
+  const params = await searchParams;
+  const error = params?.error;
 
   return (
     <div className="min-h-[calc(100dvh-4rem)] bg-gray-50 px-6 pt-10">

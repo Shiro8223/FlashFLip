@@ -102,14 +102,14 @@ export default async function SignupPage({
           <form className="space-y-4" action={signupAction}>
             <label className="block">
               <span className="mb-1 block text-sm font-medium text-gray-800">
-                Name
+                Username
               </span>
               <input
                 name="name"
                 type="text"
                 required
                 className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-gray-900 outline-none ring-blue-200 placeholder:text-gray-400 focus:ring-2"
-                placeholder="Guest User"
+                placeholder="Your display name"
               />
             </label>
 
