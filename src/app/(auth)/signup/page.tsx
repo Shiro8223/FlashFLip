@@ -66,10 +66,12 @@ async function signupAction(formData: FormData) {
 export default async function SignupPage({
   searchParams,
 }: {
-  searchParams?: { error?: string; info?: string };
+  // 👇 make it a Promise and await it
+  searchParams?: Promise<{ error?: string; info?: string }>;
 }) {
-  const error = searchParams?.error;
-  const info = searchParams?.info;
+  const params = await searchParams;
+  const error = params?.error;
+  const info = params?.info;
 
   return (
     <div className="min-h-[calc(100dvh-4rem)] bg-gray-50 px-6 pt-10">
