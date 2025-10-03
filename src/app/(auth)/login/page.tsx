@@ -1,19 +1,33 @@
-// app/(auth)/login/page.tsx  (Server Component)
 import Link from "next/link";
-import AuthCard from "../../components/AuthCard";
+import AuthCard from "../../../components/AuthCard";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import SubmitButton from "@/components/SubmitButton";
 
-export const metadata = { title: "Log in | [WittyName]" };
-
-// Server action:
+// --- Server Action ---
 async function loginAction(formData: FormData) {
   "use server";
   const email = String(formData.get("email") || "");
   const password = String(formData.get("password") || "");
-  // TODO: verify credentials, set cookie/session, then redirect
-  // redirect("/profile");
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    redirect(`/login?error=${encodeURIComponent(error.message)}`);
+  }
+  redirect("/dashboard");
 }
 
-export default function LoginPage() {
+export const metadata = { title: "Log in | [WittyName]" };
+
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams?: { error?: string };
+}) {
+  const error = searchParams?.error;
+
   return (
     <div className="min-h-[calc(100dvh-4rem)] bg-gray-50 px-6 pt-10">
       <div className="mx-auto max-w-6xl">
@@ -39,6 +53,8 @@ export default function LoginPage() {
             </div>
           }
         >
+          {error && <p className="text-sm text-red-600">{error}</p>}
+
           <form className="space-y-4" action={loginAction}>
             <label className="block">
               <span className="mb-1 block text-sm font-medium text-gray-800">
@@ -64,12 +80,8 @@ export default function LoginPage() {
                 placeholder="••••••••"
               />
             </label>
-            <button
-              type="submit"
-              className="w-full rounded-xl bg-blue-600 px-4 py-2.5 font-medium text-white hover:bg-blue-700"
-            >
-              Log in
-            </button>
+
+            <SubmitButton />
           </form>
         </AuthCard>
       </div>

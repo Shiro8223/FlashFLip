@@ -1,5 +1,5 @@
 import "./globals.css";
-import NavBar from "./components/navbar";
+import NavBar from "../components/navbar";
 
 export const metadata = {
   title: "Flashcards",

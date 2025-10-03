@@ -1,27 +1,76 @@
-// app/(auth)/signup/page.tsx
 import Link from "next/link";
-import AuthCard from "../../components/AuthCard";
+import AuthCard from "../../../components/AuthCard";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import SubmitButton from "@/components/SubmitButton";
 
-export const metadata = {
-  title: "Sign up | FlashFlip",
-};
+export const metadata = { title: "Sign up | FlashFlip" };
 
-// Example server action (replace with real logic)
+// --- Server Action ---
 async function signupAction(formData: FormData) {
   "use server";
-  const name = String(formData.get("name") || "");
-  const email = String(formData.get("email") || "");
+  const name = String(formData.get("name") || "").trim();
+  const email = String(formData.get("email") || "")
+    .trim()
+    .toLowerCase();
   const password = String(formData.get("password") || "");
   const confirm = String(formData.get("confirm") || "");
 
-  // TODO: validate + create user in DB
-  console.log("Sign up request:", { name, email, password, confirm });
+  if (!email || !password) {
+    redirect(
+      `/signup?error=${encodeURIComponent("Email and password required")}`
+    );
+  }
+  if (password !== confirm) {
+    redirect(`/signup?error=${encodeURIComponent("Passwords do not match")}`);
+  }
+  if (password.length < 8) {
+    redirect(
+      `/signup?error=${encodeURIComponent(
+        "Password must be at least 8 characters"
+      )}`
+    );
+  }
 
-  // Optionally redirect
-  // redirect("/profile");
+  const supabase = await createClient();
+
+  // You can attach metadata to the auth user
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { full_name: name },
+      // If you want to send a magic confirm link to a specific URL:
+      // emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+    },
+  });
+
+  if (error) {
+    redirect(`/signup?error=${encodeURIComponent(error.message)}`);
+  }
+
+  // If email confirmations are ON, no session yet → tell user to check email.
+  // If confirmations are OFF, Supabase returns a session and cookie is set.
+  if (!data.session) {
+    redirect(
+      `/login?info=${encodeURIComponent(
+        "Account created. Check your email to confirm."
+      )}`
+    );
+  }
+
+  // Signed in immediately
+  redirect("/dashboard");
 }
 
-export default function SignupPage() {
+export default async function SignupPage({
+  searchParams,
+}: {
+  searchParams?: { error?: string; info?: string };
+}) {
+  const error = searchParams?.error;
+  const info = searchParams?.info;
+
   return (
     <div className="min-h-[calc(100dvh-4rem)] bg-gray-50 px-6 pt-10">
       <div className="mx-auto max-w-6xl">
@@ -47,7 +96,9 @@ export default function SignupPage() {
             </div>
           }
         >
-          {/* ✅ no onSubmit, use action */}
+          {info && <p className="text-sm text-green-700">{info}</p>}
+          {error && <p className="text-sm text-red-600">{error}</p>}
+
           <form className="space-y-4" action={signupAction}>
             <label className="block">
               <span className="mb-1 block text-sm font-medium text-gray-800">
@@ -102,13 +153,7 @@ export default function SignupPage() {
               />
             </label>
 
-            <button
-              type="submit"
-              className="w-full rounded-xl bg-blue-600 px-4 py-2.5 font-medium text-white hover:bg-blue-700"
-            >
-              Create account
-            </button>
-
+            <SubmitButton idle="Create account" pendingText="Creating..." />
             <p className="text-center text-xs text-gray-500">
               By signing up you agree to our Terms and Privacy Policy.
             </p>
